@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root"; // Change if using another user
 $password = "secure"; // Set your database password
-$dbname = "post_bus_malawi";
+$dbname = "bus";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

@@ -1203,6 +1203,13 @@ th, td {
 
     .main-content {
         padding: 20px 15px 40px;
+        margin-bottom: 20px;
+        padding: 15px;
+        border-left: 4px solid var(--secondary-color);
+        background-color: var(--white);
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+     
     }
 
     .faq-section {
@@ -1233,6 +1240,12 @@ th, td {
         box-shadow: var(--box-shadow);
         margin-bottom: 15px;
         overflow: hidden;
+        margin-bottom: 20px;
+        padding: 15px;
+        border-left: 4px solid var(--secondary-color);
+        background-color: var(--white);
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
     .faq-question {
@@ -1256,7 +1269,6 @@ th, td {
     }
 
     .faq-answer {
-        max-height: 0;
         overflow: hidden;
         transition: max-height 0.3s ease;
         padding: 0 20px;
@@ -1391,6 +1403,7 @@ th, td {
     #map {
         height: 400px;
         width: 100%;
+        position: sticky;
     }
 
     .popular-routes {
@@ -1805,6 +1818,12 @@ th, td {
         /* Contact Options */
         .contact-options {
             padding: 20px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-left: 4px solid var(--secondary-color);
+            background-color: var(--white);
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .contact-option {
@@ -1816,6 +1835,12 @@ th, td {
             display: flex;
             align-items: center;
             transition: transform 0.2s ease;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-left: 4px solid var(--secondary-color);
+            background-color: var(--white);
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .contact-option:hover {
@@ -1856,6 +1881,12 @@ th, td {
             background-color: #f9f9f9;
             border-radius: 10px;
             margin: 20px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-left: 4px solid var(--secondary-color);
+            background-color: var(--white);
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .contact-form h3 {
@@ -1912,6 +1943,12 @@ th, td {
         /* Stations Section */
         .stations {
             padding: 20px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-left: 4px solid var(--secondary-color);
+            background-color: var(--white);
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .stations h3 {
@@ -1926,6 +1963,12 @@ th, td {
             padding: 15px;
             margin-bottom: 15px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 15px;
+            border-left: 4px solid var(--secondary-color);
+            background-color: var(--white);
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .station h4 {
@@ -1950,17 +1993,25 @@ th, td {
         .map-container {
             padding: 20px;
             text-align: center;
+            margin-bottom: 20px;
+        padding: 15px;
+        border-left: 4px solid var(--secondary-color);
+        background-color: var(--white);
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .map {
             width: 100%;
             max-width: 900px;
             margin: 0 auto;
+            position: sticky;
         }
 
         /* For Leaflet Map */
         #map {
             height: 450px;
+            position: sticky;
         }
 
         /* Modal */
@@ -2023,13 +2074,16 @@ th, td {
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh; 
             width: 100%;
             background-color: #f4f4f4; 
+            margin-bottom: 20px;
+        padding: 15px;
+        border-left: 4px solid var(--secondary-color);
+        background-color: var(--white);
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        
         .map-container {
-            width: 80%;
             max-width: 800px;
             height: 400px;
             display: flex;
@@ -2038,12 +2092,6 @@ th, td {
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        
-        #map {
-            width: 100%;
-            height: 100%;
-            border-radius: 10px;
         }
 
                 #notificationPanel {
@@ -2158,7 +2206,7 @@ th, td {
                 }
                 
                 .seat.selected {
-                    background: #2ecc71;
+                    background: #2C5282;
                     color: white;
                     border-color: #27ae60;
                 }
@@ -3086,6 +3134,7 @@ th, td {
 
         .route-map {
             flex: 2;
+            position: sticky;
         }
 
         .map-placeholder {

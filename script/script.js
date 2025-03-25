@@ -177,12 +177,13 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', () => {
     let currentSlide = 0; // Initial slide index
     const slides = document.querySelectorAll('.slide'); // Replace '.slide' with your actual slide class or selector
-    const totalSlides = slides.length;
+    
+    // Only initialize slideshow if slides exist on the page
+    if (slides && slides.length > 0) {
+        const totalSlides = slides.length;
 
-    // Function to change slide
-    function changeSlide(index) {
-        // Ensure all slides exist before proceeding
-        if (slides && slides.length > 0) {
+        // Function to change slide
+        function changeSlide(index) {
             slides.forEach((slide, i) => {
                 if (i === index) {
                     slide.style.display = 'block'; // Show the current slide
@@ -190,27 +191,103 @@ document.addEventListener('DOMContentLoaded', () => {
                     slide.style.display = 'none'; // Hide all other slides
                 }
             });
-        } else {
-            console.error('Slides not found in the DOM');
+        }
+
+        // Function to go to the next slide
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides; // Loop back to the first slide
+            changeSlide(currentSlide);
+        }
+
+        // Initial slide setup
+        changeSlide(currentSlide);
+
+        // Look for next button only if we have slides
+        const nextButton = document.querySelector('.next-button'); // Replace '.next-button' with your button's selector
+        if (nextButton) {
+            nextButton.addEventListener('click', nextSlide);
         }
     }
-
-    // Function to go to the next slide
-    function nextSlide() {
-        currentSlide = (currentSlide + 1) % totalSlides; // Loop back to the first slide
-        changeSlide(currentSlide);
-    }
-
-    // Initial slide setup
-    if (slides.length > 0) {
-        changeSlide(currentSlide);
-    }
-
-    // Example of a button triggering the next slide (update selector as needed)
-    const nextButton = document.querySelector('.next-button'); // Replace '.next-button' with your button's selector
-    if (nextButton) {
-        nextButton.addEventListener('click', nextSlide);
-    } else {
-        console.error('Next button not found in the DOM');
-    }
 });
+
+// Function to navigate to seat selection page after validation
+function showPage() {
+    // Validate form fields
+    const departure = document.getElementById("departure").value;
+    const destination = document.getElementById("destination").value;
+    const travelDate = document.getElementById("travel-date").value;
+    const travelTime = document.getElementById("travel-time").value;
+    
+    if (!departure || !destination || !travelDate || !travelTime) {
+        alert("Please complete all fields before continuing.");
+        return;
+    }
+    
+    if (departure === destination) {
+        alert("Departure and destination cannot be the same.");
+        return;
+    }
+    
+    // Get form data and convert to JSON
+    const formData = {
+        departure: departure,
+        destination: destination,
+        travel_date: travelDate,
+        travel_time: travelTime
+    };
+    
+    // Submit the form via AJAX
+    fetch("submite-booking.php", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Response:", data);
+        if (data.success) {
+            // Store relevant data in localStorage
+            localStorage.setItem('selectedRoute', departure + " to " + destination);
+            localStorage.setItem('travelDate', new Date(travelDate).toLocaleDateString('en-US', {day: 'numeric', month: 'short', year: 'numeric'}));
+            localStorage.setItem('departureTime', travelTime);
+            
+            // Calculate estimated arrival time
+            const arrivalTime = calculateArrivalTime(travelTime);
+            localStorage.setItem('arrivalTime', arrivalTime);
+            
+            // Redirect to seat selection page
+            window.location.href = "seat.php?booking_code=" + data.booking_code;
+        } else {
+            alert("Error: " + data.message);
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("An error occurred while processing your booking. Please try again.");
+    });
+}
+
+// Helper function to calculate estimated arrival time
+function calculateArrivalTime(departureTime) {
+    // Parse the departure time
+    const [hours, minutes] = departureTime.split(':').map(Number);
+    
+    // Add journey time (assuming 4 hours 15 minutes)
+    let arrivalHours = hours + 4;
+    let arrivalMinutes = minutes + 15;
+    
+    // Adjust if minutes overflow
+    if (arrivalMinutes >= 60) {
+        arrivalHours += 1;
+        arrivalMinutes -= 60;
+    }
+    
+    // Format with AM/PM
+    const period = arrivalHours >= 12 ? 'PM' : 'AM';
+    const formattedHours = arrivalHours > 12 ? arrivalHours - 12 : arrivalHours;
+    
+    // Return formatted time
+    return `${formattedHours}:${arrivalMinutes.toString().padStart(2, '0')} ${period}`;
+}

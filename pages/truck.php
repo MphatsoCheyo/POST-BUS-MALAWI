@@ -12,6 +12,12 @@ include('../pages/header.php');
             max-width: 400px;
             margin: 0 auto;
             text-align: center;
+            margin-bottom: 20px;
+        padding: 15px;
+        border-left: 4px solid var(--secondary-color);
+        background-color: var(--white);
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         /* Heading Style */

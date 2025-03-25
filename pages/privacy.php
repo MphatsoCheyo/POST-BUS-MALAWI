@@ -202,10 +202,6 @@ include('../pages/header.php');
                 </div>
             </div>
         </div>
-
-        <div class="scroll-to-top" id="scrollToTop" onclick="scrollToTop()">
-            <i class="fas fa-arrow-up"></i>
-        </div>
     </div>
     <?php
     include('../pages/footer.php');  // Include footer.php

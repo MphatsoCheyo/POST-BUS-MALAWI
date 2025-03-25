@@ -1,34 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notifications & Alerts - Post Bus Malawi</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<?php
+$page_name = 'index';  // Set the current page name
+include('../pages/header.php');
+?>
     <style>
-        :root {
-            --primary-color: #0056b3;
-            --secondary-color: #e8f4ff;
-            --accent-color: #ff6b00;
-            --text-color: #333;
-            --light-gray: #f5f5f5;
-            --border-color: #ddd;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #f8f9fa;
-            color: var(--text-color);
-        }
-
         .container {
-            max-width: 480px;
+            width: 60%;
             margin: 0 auto;
             background-color: white;
             min-height: 100vh;
@@ -36,30 +12,18 @@
             position: relative;
         }
 
-        /* Header */
-        .header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header h1 {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
         .menu-icon {
             cursor: pointer;
         }
 
         /* Notification section */
-        .notification-section {
+        .notification-section { margin-bottom: 20px;
+        padding: 15px;
+        border-left: 4px solid var(--secondary-color);
+        background-color: var(--white);
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
             padding: 15px;
         }
 
@@ -85,10 +49,6 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             border-left: 4px solid var(--primary-color);
             position: relative;
-        }
-
-        .notification-item.unread {
-            background-color: var(--secondary-color);
         }
 
         .notification-item.promotional {
@@ -143,6 +103,12 @@
             background-color: var(--light-gray);
             border-radius: 8px;
             margin: 15px;
+            margin-bottom: 20px;
+        padding: 15px;
+        border-left: 4px solid var(--secondary-color);
+        background-color: var(--white);
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .settings-title {
@@ -212,74 +178,6 @@
             transform: translateX(20px);
         }
 
-        /* Nav drawer */
-        .nav-drawer {
-            position: fixed;
-            top: 0;
-            left: -280px;
-            width: 280px;
-            height: 100%;
-            background-color: white;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-            transition: left 0.3s ease;
-            z-index: 1000;
-            overflow-y: auto;
-        }
-
-        .nav-drawer.open {
-            left: 0;
-        }
-
-        .nav-header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 20px 15px;
-        }
-
-        .nav-header h2 {
-            font-size: 1.3rem;
-            margin-bottom: 5px;
-        }
-
-        .nav-header p {
-            font-size: 0.8rem;
-            opacity: 0.8;
-        }
-
-        .nav-item {
-            display: block;
-            padding: 15px;
-            text-decoration: none;
-            color: var(--text-color);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .nav-item i {
-            margin-right: 10px;
-            color: var(--primary-color);
-            width: 20px;
-            text-align: center;
-        }
-
-        .nav-item:hover {
-            background-color: var(--light-gray);
-        }
-
-        .nav-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-            display: none;
-        }
-
-        .nav-backdrop.visible {
-            display: block;
-        }
-
         /* Clear All button */
         .clear-all-btn {
             background-color: var(--primary-color);
@@ -327,14 +225,6 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <div class="menu-icon" id="menuToggle">
-                <i class="fas fa-bars"></i>
-            </div>
-            <h1>Notifications & Alerts</h1>
-            <div></div>
-        </div>
-
         <div class="notification-section">
             <div class="section-title">
                 <i class="fas fa-bell"></i> Recent Notifications
@@ -453,25 +343,9 @@
     </div>
 
     <!-- Navigation Drawer -->
-    <div class="nav-drawer" id="navDrawer">
-        <div class="nav-header">
-            <h2>Post Bus Malawi</h2>
-            <p>Welcome, John Banda</p>
-        </div>
-        <a href="index.php" class="nav-item"><i class="fas fa-home"></i> Home</a>
-        <a href="booking.php" class="nav-item"><i class="fas fa-ticket-alt"></i> Book a Ticket</a>
-        <a href="schedule.php" class="nav-item"><i class="fas fa-clock"></i> Check Schedule</a>
-        <a href="truck.php" class="nav-item"><i class="fas fa-bus"></i> Track Bus</a>
-        <a href="seat.php" class="nav-item"><i class="fas fa-chair"></i> Select a Seat</a>
-        <a href="payment.php" class="nav-item"><i class="fas fa-credit-card"></i> Payment Options</a>
-        <a href="qrcode.php" class="nav-item"><i class="fas fa-qrcode"></i> QR Code Generation</a>
-        <a href="customer.php" class="nav-item"><i class="fas fa-headset"></i> Customer Support</a>
-        <a href="profile.php" class="nav-item"><i class="fas fa-user"></i> User Profile</a>
-        <a href="travel.php" class="nav-item"><i class="fas fa-history"></i> Travel History</a>
-        <a href="feedback.php" class="nav-item"><i class="fas fa-star"></i> Feedback & Ratings</a>
-        <a href="notifications.php" class="nav-item active"><i class="fas fa-bell"></i> Notifications & Alerts</a>
-    </div>
-    <div class="nav-backdrop" id="navBackdrop"></div>
+    <?php
+    include('../pages/footer.php');  // Include footer.php
+    ?>
 
     <script>
         // DOM elements

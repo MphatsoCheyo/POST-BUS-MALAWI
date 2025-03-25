@@ -1,4 +1,15 @@
 <?php
+
+// Enable error logging
+ini_set('log_errors', 1);
+
+// Specify the error log file location
+ini_set('error_log', '/path/to/php_errors.log');
+
+// Set error reporting level
+error_reporting(E_ALL); // Report all errors
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false) {
     header('Content-Type: application/json');
     require_once('../vendor/autoload.php');
@@ -34,6 +45,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && strpos($_SERVER['CONTENT_TYPE'], 'a
 
 $page_name = 'payment';  // Set the current page name
 include('../pages/header.php');
+
+// Database connection and seat data fetching
+require_once('db.php');
+try {
+    $servername = "localhost";
+    $username = "root"; // Change if using another user
+    $password = "secure"; // Set your database password
+    $dbname = "bus";
+    $pdo = new PDO("mysql:host=$severname;dbname=$dbname", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+    // Get booking ID from session or URL parameter
+    $booking_id = $_GET['booking_id'] ?? $_SESSION['booking_id'] ?? null;
+    
+    if (!$booking_id) {
+        throw new Exception("No booking ID provided");
+    }
+    
+    // Fetch booked seats for this booking
+    $stmt = $pdo->prepare("SELECT seat_number FROM seats WHERE booking_id = :booking_id");
+    $stmt->bindParam(':booking_id', $booking_id);
+    $stmt->execute();
+    $booked_seats = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    
+    // Calculate total amount (you might want to fetch this from a bookings table instead)
+    $base_fare = 35000;
+    $booking_fee = 2500;
+    $tax = 3750;
+    $total_amount = $base_fare + $booking_fee + $tax;
+    
+} catch (PDOException $e) {
+    $error_message = "Database error: " . $e->getMessage();
+} catch (Exception $e) {
+    $error_message = $e->getMessage();
+}
 ?>
 <style>
     .stripe-payment-container {
@@ -90,7 +136,7 @@ include('../pages/header.php');
             <h2>Order Summary</h2>
             <div class="summary-item">
                 <span>Selected Seats:</span>
-                <span id="selectedSeatsDisplay">Loading...</span>
+                <span id="selectedSeatsDisplay"><?php echo isset($booked_seats) ? implode(', ', $booked_seats) : 'Error loading seats'; ?></span>
             </div>
             <div class="summary-item">
                 <span>Base Fare:</span>
@@ -106,7 +152,7 @@ include('../pages/header.php');
             </div>
             <div class="summary-total">
                 <span>Total:</span>
-                <span id="totalAmountDisplay">Loading...</span>
+                <span id="totalAmountDisplay">MWK <?php echo isset($total_amount) ? number_format($total_amount) : '0'; ?></span>
             </div>
         </div>
 
@@ -132,46 +178,19 @@ include('../pages/header.php');
             </div>
         </div>
 
-        <?php
-require_once('../vendor/autoload.php');
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $input = json_decode(file_get_contents('php://input'), true);
-    
-    \Stripe\Stripe::setApiKey('sk_test_51R2TeJJ727hNgr1WYourSecretKeyHere');
-    
-    try {
-        $paymentIntent = \Stripe\PaymentIntent::create([
-            'amount' => $input['amount'],
-            'currency' => 'mwk',
-            'metadata' => [
-                'booking_id' => $input['booking_id']
-            ]
-        ]);
-        
-        echo json_encode(['clientSecret' => $paymentIntent->client_secret]);
-        exit;
-    } catch (\Exception $e) {
-        http_response_code(500);
-        echo json_encode(['error' => $e->getMessage()]);
-        exit;
-    }
-}
-?>
-
-<div class="payment-form" id="cardForm">
-    <form id="payment-form">
-        <div class="form-group">
-            <label for="cardName">Name on Card</label>
-            <input type="text" id="cardName" placeholder="John Doe" required>
+        <div class="payment-form" id="cardForm">
+            <form id="payment-form">
+                <div class="form-group">
+                    <label for="cardName">Name on Card</label>
+                    <input type="text" id="cardName" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label for="card-element">Credit or debit card</label>
+                    <div id="card-element"></div>
+                    <div id="error-message"></div>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <label for="card-element">Credit or debit card</label>
-            <div id="card-element"></div>
-            <div id="error-message"></div>
-        </div>
-    </form>
-</div>
 
         <div class="payment-form" id="mobileForm" style="display: none;">
             <div class="form-group">
@@ -238,7 +257,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="success-icon">✓</div>
             <h2>Payment Successful!</h2>
             <p>Your booking has been confirmed. A confirmation has been sent to your email and phone.</p>
-            <button class="continue-button" onclick="redirectToConfirmation()">View Ticket</button>
+            <button style="position: relative; z-index:2000000; " class="continue-button" onclick="redirectToConfirmation()">View Ticket</button>
         </div>
     </div>
 
@@ -247,17 +266,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ?>
     
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="../script/java.js"></script>
-    <script src="../script/script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Load selected seats and total amount from local storage
-            const selectedSeats = JSON.parse(localStorage.getItem('selectedSeats')) || [];
-            const totalAmount = localStorage.getItem('totalAmount') || 'MWK 41,250';
-            
-            // Update the display
-            document.getElementById('selectedSeatsDisplay').textContent = selectedSeats.join(', ');
-            document.getElementById('totalAmountDisplay').textContent = totalAmount;
+            // No need to load from localStorage anymore as data comes from server
         });
         
         function selectPaymentMethod(element, method) {
@@ -283,9 +294,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             document.getElementById('loadingOverlay').style.display = 'flex';
             
             try {
-                // Get the total amount from localStorage
-                const totalAmount = localStorage.getItem('totalAmount');
-                const numericAmount = parseInt(totalAmount.replace(/[^0-9]/g, ''));
+                // Get the total amount from the displayed value
+                const totalAmountText = document.getElementById('totalAmountDisplay').textContent;
+                const numericAmount = parseInt(totalAmountText.replace(/[^0-9]/g, ''));
+                
+                // Get booking ID from PHP or generate a temporary one
+                const bookingId = '<?php echo $booking_id ?? "BOOKING-" . time(); ?>';
                 
                 // Create a payment intent on the server
                 const response = await fetch('payment.php', {
@@ -295,7 +309,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     },
                     body: JSON.stringify({
                         amount: numericAmount,
-                        booking_id: 'BOOKING-' + Date.now()
+                        booking_id: bookingId
                     })
                 });
                 
@@ -323,12 +337,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 
                 if (paymentIntent.status === 'succeeded') {
-                    // Store confirmation in local storage
-                    localStorage.setItem('paymentConfirmed', 'true');
+                    // Update database with payment status
+                    const updateResponse = await fetch('update_booking.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            booking_id: bookingId,
+                            payment_status: 'paid',
+                            payment_method: 'card',
+                            payment_reference: paymentIntent.id
+                        })
+                    });
                     
-                    // Generate a ticket number and store it
-                    const ticketNumber = 'PBMW-' + Math.floor(Math.random() * 1000000);
-                    localStorage.setItem('ticketNumber', ticketNumber);
+                    const updateResult = await updateResponse.json();
+                    
+                    if (updateResult.error) {
+                        throw new Error(updateResult.error);
+                    }
                     
                     // Show success message
                     document.getElementById('successMessage').style.display = 'flex';
@@ -343,8 +370,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
         function redirectToConfirmation() {
-            // Redirect to ticket confirmation page
-            window.location.href = 'ticket-confirmation.php';
+            // Redirect to ticket confirmation page with booking ID
+            const bookingId = '<?php echo $booking_id ?? ""; ?>';
+            window.location.href = 'qrcode.php?booking_id=' + bookingId;
         }
         
         function goBack() {
@@ -357,41 +385,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         const elements = stripe.elements();
         const card = elements.create('card');
         card.mount('#card-element');
-
-        // Basic form validation for card numbers
-        const cardNumber = document.getElementById('cardNumber');
-        if (cardNumber) {
-            cardNumber.addEventListener('input', function(e) {
-            // Format card number with spaces after every 4 digits
-            let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-            let formattedValue = '';
-            
-            for (let i = 0; i < value.length; i++) {
-                if (i > 0 && i % 4 === 0) {
-                    formattedValue += ' ';
-                }
-                formattedValue += value[i];
-            }
-            
-                e.target.value = formattedValue;
-            });
-        }
-        
-        // Format expiry date
-        const expiryDate = document.getElementById('expiryDate');
-        if (expiryDate) {
-            expiryDate.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-            
-            if (value.length > 2) {
-                value = value.substring(0, 2) + '/' + value.substring(2, 4);
-            }
-            
-                e.target.value = value;
-            });
-        }
     </script>
-    <script src="../script/java.js"></script>
-    <script src="../script/script.js"></script>
 </body>
 </html>

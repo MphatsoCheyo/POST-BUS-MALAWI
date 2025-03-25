@@ -135,9 +135,8 @@ include('../pages/header.php');
         </section>
 
         <!-- Map Section -->
+        <h3 data-translate="findUs">Find Us</h3>
                     <section class="map-container">
-                    <h3 data-translate="findUs">Find Us</h3>
-                    
                     <!-- Leaflet.js Map -->
                     <div id="map" class="map"></div>
 

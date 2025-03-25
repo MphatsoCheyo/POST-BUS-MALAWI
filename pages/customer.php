@@ -1,33 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Support - Post Bus Malawi</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<?php
+$page_name = 'about us';  
+include('../pages/header.php');
+?>
     <style>
-        :root {
-            --primary-color: #0056b3;
-            --secondary-color: #e8f4ff;
-            --accent-color: #ff6b00;
-            --text-color: #333;
-            --light-gray: #f5f5f5;
-            --border-color: #ddd;
-            --success-color: #28a745;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #f8f9fa;
-            color: var(--text-color);
-        }
-
         .container {
             width: 60%;
             margin: 0 auto;
@@ -87,6 +62,12 @@
         /* FAQ Section */
         .faq-section {
             margin-bottom: 20px;
+            margin-bottom: 20px;
+        padding: 15px;
+        border-left: 4px solid var(--secondary-color);
+        background-color: var(--white);
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .faq-item {
@@ -299,6 +280,12 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             cursor: pointer;
             transition: transform 0.2s ease;
+            margin-bottom: 20px;
+        padding: 15px;
+        border-left: 4px solid var(--secondary-color);
+        background-color: var(--white);
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .help-category:hover {
@@ -396,6 +383,12 @@
         /* Contact options */
         .contact-options {
             margin-top: 20px;
+            margin-bottom: 20px;
+        padding: 15px;
+        border-left: 4px solid var(--secondary-color);
+        background-color: var(--white);
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .contact-title {
@@ -489,6 +482,12 @@
             padding: 15px;
             border-radius: 8px;
             margin-top: 20px;
+            margin-bottom: 20px;
+        padding: 15px;
+        border-left: 4px solid var(--secondary-color);
+        background-color: var(--white);
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .rating-title {
@@ -534,6 +533,12 @@
             padding: 15px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             margin-top: 20px;
+            margin-bottom: 20px;
+        padding: 15px;
+        border-left: 4px solid var(--secondary-color);
+        background-color: var(--white);
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .form-title {
@@ -991,6 +996,9 @@
             </div>
         </div>
     </div>
+    <?php
+    include('../pages/footer.php');  // Include footer.php
+    ?>
 
     <script>
         // Tab switching functionality

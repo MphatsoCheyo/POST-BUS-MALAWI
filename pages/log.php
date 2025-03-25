@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     // Database connection
-    $conn = new mysqli('localhost', 'root', 'secure', 'post_bus_malawi');
+    $conn = new mysqli('localhost', 'root', 'secure', 'bus');
 
     // Check connection
     if ($conn->connect_error) {

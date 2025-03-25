@@ -1,0 +1,8 @@
+[24-Mar-2025 13:34:07 Europe/Berlin] PHP Notice:  This is a test error in C:\xampp\htdocs\post-bus_(03-22-2025)\post-bus-malawi\pages\process_seat.php on line 11
+[24-Mar-2025 13:34:07 Europe/Berlin] DB Error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'base_fare' in 'field list'
+[24-Mar-2025 13:38:20 Europe/Berlin] PHP Notice:  This is a test error in C:\xampp\htdocs\post-bus_(03-22-2025)\post-bus-malawi\pages\process_seat.php on line 11
+[24-Mar-2025 13:38:20 Europe/Berlin] DB Error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'booking_fee' in 'field list'
+[24-Mar-2025 13:40:39 Europe/Berlin] PHP Notice:  This is a test error in C:\xampp\htdocs\post-bus_(03-22-2025)\post-bus-malawi\pages\process_seat.php on line 11
+[24-Mar-2025 13:40:39 Europe/Berlin] DB Error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'tax' in 'field list'
+[24-Mar-2025 13:42:05 Europe/Berlin] PHP Notice:  This is a test error in C:\xampp\htdocs\post-bus_(03-22-2025)\post-bus-malawi\pages\process_seat.php on line 11
+[24-Mar-2025 13:47:02 Europe/Berlin] PHP Notice:  This is a test error in C:\xampp\htdocs\post-bus_(03-22-2025)\post-bus-malawi\pages\process_seat.php on line 11

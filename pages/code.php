@@ -166,84 +166,45 @@ include('../pages/header.php');
         };
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Check if all required actions are completed
-            checkBookingCompletion();
+            // Load data from localStorage (set by the booking process)
+            loadTicketData();
+
+            // Update the receipt UI with the loaded data
+            updateReceiptUI();
+
+            // Generate QR code with the ticket data
+            generateQRCode(ticketData);
+
+            // Start butterfly animation with delay
+            setTimeout(startRandomButterflies, 3000);
         });
 
-        function checkBookingCompletion() {
-            // Get all required data from localStorage
-            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-            const hasSelectedRoute = localStorage.getItem('selectedRoute') !== null;
-            const hasSelectedSeats = localStorage.getItem('selectedSeats') !== null;
-            const hasMadePayment = localStorage.getItem('paymentCompleted') === 'true';
-
-            // If all actions are completed, load the ticket data
-            if (isLoggedIn && hasSelectedRoute && hasSelectedSeats && hasMadePayment) {
-                loadTicketData();
-                updateReceiptUI();
-                generateQRCode(ticketData);
-                setTimeout(startRandomButterflies, 3000);
-            } else {
-                // Show loading state until all actions are completed
-                showLoadingState();
-                
-                // Check periodically if all actions are completed
-                const checkInterval = setInterval(() => {
-                    const allCompleted = localStorage.getItem('isLoggedIn') === 'true' && 
-                                         localStorage.getItem('selectedRoute') !== null && 
-                                         localStorage.getItem('selectedSeats') !== null && 
-                                         localStorage.getItem('paymentCompleted') === 'true';
-                    
-                    if (allCompleted) {
-                        clearInterval(checkInterval);
-                        loadTicketData();
-                        updateReceiptUI();
-                        generateQRCode(ticketData);
-                        setTimeout(startRandomButterflies, 3000);
-                    }
-                }, 1000);
-            }
-        }
-
-        function showLoadingState() {
-            // All fields already show "Loading..." by default
-            // Disable action buttons until data is ready
-            document.querySelector('.download-button').disabled = true;
-            document.querySelector('.validate-button').disabled = true;
-            document.querySelector('.send-button').disabled = true;
-        }
-
         function loadTicketData() {
-            // Enable action buttons now that data is ready
-            document.querySelector('.download-button').disabled = false;
-            document.querySelector('.validate-button').disabled = false;
-            document.querySelector('.send-button').disabled = false;
-
             // Get selected seats
             ticketData.seats = JSON.parse(localStorage.getItem('selectedSeats')) || [];
 
             // Get route information
-            ticketData.route = localStorage.getItem('selectedRoute') || 'Unknown Route';
+            ticketData.route = localStorage.getItem('selectedRoute') || 'Lilongwe to Blantyre';
 
             // Get date and time information
-            ticketData.date = localStorage.getItem('travelDate') || 'Unknown Date';
-            ticketData.departureTime = localStorage.getItem('departureTime') || 'Unknown Time';
-            ticketData.arrivalTime = localStorage.getItem('arrivalTime') || 'Unknown Time';
+            ticketData.date = localStorage.getItem('travelDate') || '12 Mar 2025';
+            ticketData.departureTime = localStorage.getItem('departureTime') || '08:30 AM';
+            ticketData.arrivalTime = localStorage.getItem('arrivalTime') || '12:45 PM';
 
             // Get payment information
-            ticketData.amountPaid = localStorage.getItem('totalAmount') || 'MWK 0';
+            ticketData.amountPaid = localStorage.getItem('totalAmount') || 'MWK 41,250';
 
             // Get ticket ID/reference number
             ticketData.ticketId = localStorage.getItem('ticketNumber') || generateTicketId();
 
             // Get passenger information
-            ticketData.passenger.name = localStorage.getItem('passengerName') || 'Unknown Passenger';
-            ticketData.passenger.id = localStorage.getItem('passengerId') || 'Unknown ID';
-            ticketData.passenger.phone = localStorage.getItem('passengerPhone') || 'Unknown Phone';
+            ticketData.passenger.name = localStorage.getItem('passengerName') || 'John Banda';
+            ticketData.passenger.id = localStorage.getItem('passengerId') || 'MAL12345678';
+            ticketData.passenger.phone = localStorage.getItem('passengerPhone') || '+265 88 123 4567';
 
-            // If no seats are found, show empty
+            // If no seats are found, use default seats
             if (ticketData.seats.length === 0) {
-                ticketData.seats = ['No seats selected'];
+                ticketData.seats = ['4B', '4C'];
             }
         }
 

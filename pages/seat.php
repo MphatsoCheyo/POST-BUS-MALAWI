@@ -1,56 +1,237 @@
 <?php
-$page_name = 'seat selection page';  // Set the current page name
+$page_name = 'privacy';  // Set the current page name
 include('../pages/header.php');
+
+
+
 ?>
 <style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .seat-selection-title {
+        text-align: center;
+        color: #2C5282;
+        margin-bottom: 30px;
+        font-size: 2em;
+    }
+
+    .bus-layout {
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .bus-front {
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .driver-area {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .driver-seat {
+        display: inline-block;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .seats-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .seat-row {
+        display: flex;
+        margin-bottom: 15px;
+        justify-content: center;
+        align-items: center;
+    }
+
     .seat {
         width: 50px;
         height: 50px;
-        margin: 5px;
+        margin: 8px;
         text-align: center;
-        border: 1px solid #ccc;
+        line-height: 50px;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 16px;
         cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .seat:hover {
+        transform: scale(1.1);
     }
 
     .available {
         background-color: #e0e0e0;
     }
 
+    .available:hover {
+        background-color: #d0d0d0;
+    }
+
     .selected {
-        background-color: #4caf50;
+        background-color: #2C5282;
         color: white;
     }
 
     .occupied {
         background-color: #f44336;
         color: white;
+        cursor: not-allowed;
     }
 
     .aisle {
-        width: 10px;
-        display: inline-block;
-        background-color: #fff;
+        width: 20px;
+        height: 50px;
+        background-color: transparent;
+    }
+
+    .legend {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+        gap: 20px;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .legend-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 3px;
+    }
+
+    .available-color {
+        background-color: #e0e0e0;
+    }
+
+    .selected-color {
+        background-color: #2C5282;
+    }
+
+    .occupied-color {
+        background-color: #f44336;
+    }
+
+    .booking-summary {
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .booking-summary h3 {
+        margin-top: 0;
+        color: #2C5282;
+    }
+
+    .malawi-logo {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .seatlog {
+        max-width: 100px;
+    }
+
+    .price-details {
+        border-top: 1px solid #eee;
+        padding-top: 15px;
+    }
+
+    .price-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .total-price {
+        font-weight: bold;
+        font-size: 1.2em;
+        margin-top: 15px;
+        padding-top: 10px;
+        border-top: 1px solid #eee;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .back-button,
+    .pay-button {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 4px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .back-button {
+        background-color: #e0e0e0;
+        color: #333;
+    }
+
+    .back-button:hover {
+        background-color: #d0d0d0;
+    }
+
+    .pay-button {
+        background-color: #2C5282;
+        color: white;
+    }
+
+    .pay-button:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+    }
+
+    .pay-button:not(:disabled):hover {
+        background-color: #1a365d;
     }
 </style>
 </head>
 
 <body>
-    <!-- <div class="container">
-    <h2 class="seat-selection-title">Select Your Seat - Post Bus Malawi</h2>
-    
-   
-    <form action="process-seat.php" method="POST">
+    <div class="container">
+        <h2 class="seat-selection-title">Select Your Seat - Post Bus Malawi</h2>
+
         <div class="bus-layout">
             <div class="bus-front">Driver</div>
-
             <div class="driver-area">
                 <div class="driver-seat">🚌</div>
             </div>
-
             <div class="seats-container" id="seatsContainer">
-                Seats will be generated by JavaScript
+                <!-- Seats will be generated by JavaScript -->
             </div>
-
             <div class="legend">
                 <div class="legend-item">
                     <div class="legend-color available-color"></div>
@@ -98,560 +279,173 @@ include('../pages/header.php');
 
         <div class="button-container">
             <button type="button" class="back-button" id="backButton">Back to Selection</button>
-            <button type="submit" class="pay-button" id="payButton" disabled>Proceed to Payment</button>
+            <button type="button" class="pay-button" id="payButton" disabled>Proceed to Payment</button>
         </div>
-    </form>
-</div> -->
-    <div class="container">
-        <h2 class="seat-selection-title">Select Your Seat - Post Bus Malawi</h2>
-
-        <!-- Start of the form -->
-        <form action="process-seat.php" method="POST">
-            <div class="bus-layout">
-                <div class="bus-front">Driver</div>
-
-                <div class="driver-area">
-                    <div class="driver-seat">🚌</div>
-                </div>
-
-                <div class="seats-container" id="seatsContainer">
-                    <!-- Seats will be generated by JavaScript -->
-                </div>
-
-                <div class="legend">
-                    <div class="legend-item">
-                        <div class="legend-color available-color"></div>
-                        <span>Available</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color selected-color"></div>
-                        <span>Selected</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color occupied-color"></div>
-                        <span>Occupied</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="booking-summary">
-                <h3>Booking Summary</h3>
-                <div class="malawi-logo">
-                    <img src="../images/m.webp" alt="Malawi Corporation Logo" class="seatlog">
-                </div>
-                <div class="price-details">
-                    <div class="price-row">
-                        <span>Base Fare:</span>
-                        <span>MWK 35,000</span>
-                    </div>
-                    <div class="price-row" id="selectedSeatsText">
-                        <span>Selected Seats:</span>
-                        <span>None</span>
-                    </div>
-                    <div class="price-row">
-                        <span>Booking Fee:</span>
-                        <span>MWK 2,500</span>
-                    </div>
-                    <div class="price-row">
-                        <span>Tax:</span>
-                        <span>MWK 3,750</span>
-                    </div>
-                    <div class="price-row total-price">
-                        <span>Total:</span>
-                        <span id="totalPrice">MWK 41,250</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="button-container">
-                <button type="button" class="back-button" id="backButton">Back to Selection</button>
-                <button type="submit" class="pay-button" id="payButton" disabled>Proceed to Payment</button>
-            </div>
-        </form>
-        <!-- End of the form -->
     </div>
+    <?php include('../pages/footer.php'); ?>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const seatsContainer = document.getElementById('seatsContainer');
-            const payButton = document.getElementById('payButton');
-            const backButton = document.getElementById('backButton');
-            const totalPriceElement = document.getElementById('totalPrice');
-            const selectedSeatsTextElement = document.getElementById('selectedSeatsText');
+    // Configuration
+    const config = {
+        rows: 10,
+        seatsPerRow: 4,
+        baseFare: 35000,
+        bookingFee: 2500,
+        tax: 3750,
+        occupiedSeats: ['1A', '2C', '3D', '5B', '7A', '8D']
+    };
 
-            // Configuration
-            const rows = 10;
-            const seatsPerRow = 4;
-            const baseFare = 35000;
-            const bookingFee = 2500;
-            const tax = 3750;
+    // State
+    let selectedSeats = [];
+    function getBookingCodeFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('booking_code');
+    }
 
-            // Pre-occupied seats
-            const occupiedSeats = ['1A', '2C', '3D', '5B', '7A', '8D', '9C'];
+    // Assign booking code t    o bookingId
+    let bookingId = getBookingCodeFromUrl();
 
-            // Selected seats
-            let selectedSeats = [];
+    // DOM Elements
+    const elements = {
+        seatsContainer: document.getElementById('seatsContainer'),
+        selectedSeatsText: document.getElementById('selectedSeatsText'),
+        totalPrice: document.getElementById('totalPrice'),
+        payButton: document.getElementById('payButton'),
+        backButton: document.getElementById('backButton')
+    };
 
-            // Get booking ID from sessionStorage or URL
-            function getBookingId() {
-                console.log('Getting booking ID from sessionStorage'.sessionStorage.getItem('booking_code'));
-
-
-                const urlParams = new URLSearchParams(window.location.search);
-                const bookingCode = urlParams.get('booking_id');
-
-                if (!bookingCode) {
-                    const urlParams = new URLSearchParams(window.location.search);
-                    bookingCode = urlParams.get('booking_code');
-
-                    if (bookingCode) {
-                        sessionStorage.setItem('booking_code', bookingCode); // Store for later use
-                    }
-                }
-
-                console.log("Retrieved booking code:", bookingCode || "None"); // Debugging
-                return bookingCode || null;
-            }
-
-            // Generate seats
-            for (let row = 1; row <= rows; row++) {
-                const rowContainer = document.createElement('div');
-                rowContainer.className = 'seat-row';
-
-                for (let seat = 1; seat <= seatsPerRow; seat++) {
-                    const seatElement = document.createElement('div');
-
-                    let seatLetter = ['A', 'B', 'C', 'D'][seat - 1];
-                    const seatId = `${row}${seatLetter}`;
-                    seatElement.id = seatId;
-                    seatElement.className = 'seat';
-                    seatElement.textContent = seatId;
-
-                    if (occupiedSeats.includes(seatId)) {
-                        seatElement.classList.add('occupied');
-                    } else {
-                        seatElement.classList.add('available');
-                        seatElement.addEventListener('click', function() {
-                            toggleSeatSelection(seatId);
-                        });
-                    }
-
-                    rowContainer.appendChild(seatElement);
-
-                    if (seat === 2) {
-                        const aisleElement = document.createElement('div');
-                        aisleElement.className = 'seat aisle';
-                        rowContainer.appendChild(aisleElement);
-                    }
-                }
-                seatsContainer.appendChild(rowContainer);
-            }
-
-            // Toggle seat selection
-            function toggleSeatSelection(seatId) {
-                const seatElement = document.getElementById(seatId);
-                if (!seatElement) return;
-
-                if (seatElement.classList.contains('selected')) {
-                    seatElement.classList.remove('selected');
-                    seatElement.classList.add('available');
-                    selectedSeats = selectedSeats.filter(id => id !== seatId);
-                } else {
-                    seatElement.classList.remove('available');
-                    seatElement.classList.add('selected');
-                    selectedSeats.push(seatId);
-                }
-
-                updateBookingSummary();
-            }
-
-            // Update booking summary
-            function updateBookingSummary() {
-                const seatPrice = baseFare;
-                const seatsTotal = selectedSeats.length * seatPrice;
-                const total = seatsTotal + bookingFee + tax;
-
-                totalPriceElement.textContent = formatCurrency(total);
-
-                if (selectedSeats.length > 0) {
-                    selectedSeatsTextElement.innerHTML = `
-                <span>Selected Seats (${selectedSeats.length}):</span>
-                <span>${selectedSeats.join(', ')} - ${formatCurrency(seatsTotal)}</span>
-            `;
-
-                    let hiddenInput = document.getElementById('selectedSeatsInput');
-                    if (!hiddenInput) {
-                        hiddenInput = document.createElement('input');
-                        hiddenInput.type = 'hidden';
-                        hiddenInput.id = 'selectedSeatsInput';
-                        hiddenInput.name = 'selected_seats';
-                        document.querySelector('form')?.appendChild(hiddenInput);
-                    }
-                    hiddenInput.value = JSON.stringify(selectedSeats);
-
-                    payButton.disabled = false;
-                } else {
-                    selectedSeatsTextElement.innerHTML = `
-                <span>Selected Seats:</span>
-                <span>None</span>
-            `;
-                    payButton.disabled = true;
-                }
-            }
-
-            function formatCurrency(amount) {
-                return 'MWK ' + amount.toLocaleString('en-US');
-            }
-
-            // Pay button event listener (ensures it exists)
-            if (payButton) {
-                payButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-
-                    if (selectedSeats.length === 0) {
-                        alert("Please select at least one seat before proceeding.");
-                        return;
-                    }
-
-                    const bookingCode = getBookingId();
-
-                    if (!bookingCode) {
-                        console.error("Error: Booking code not found. Check URL or sessionStorage.");
-                        alert("Booking code not found. Please start a new booking.");
-                        sessionStorage.removeItem('booking_code'); // Clear invalid stored data
-                        window.location.href = 'booking.php'; // Redirect to new booking
-                        return;
-                    }
-
-                    const requestData = {
-                        booking_code: bookingCode,
-                        selected_seats: selectedSeats
-                    };
-
-                    console.log("Sending to server:", requestData);
-
-                    fetch('process-seat.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(requestData)
-                        })
-                        .then(response => {
-                            if (!response.ok) throw new Error("Server error: " + response.status);
-                            return response.json();
-                        })
-                        .then(data => {
-                            console.log("Processed response:", data);
-                            if (data.success) {
-                                window.location.href = `payment.php?booking_code=${bookingCode}`;
-                            } else {
-                                alert("Booking Failed: " + data.message);
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Fetch Error:', error);
-                            alert("An error occurred. Please try again. Details: " + error.message);
-                        });
-                });
-            }
+    // Initialize on DOM load
+    document.addEventListener('DOMContentLoaded', () => {
+        renderSeats();
+        updateSummary();
+        
+        elements.payButton.addEventListener('click', handlePayment);
+        elements.backButton.addEventListener('click', () => {
+            window.location.href = 'selection.php';
         });
-    </script>
+    });
 
+    // Seat selection handler
+    function toggleSeat(seatId) {
+        const index = selectedSeats.indexOf(seatId);
+        
+        if (index === -1) {
+            selectedSeats.push(seatId);
+        } else {
+            selectedSeats.splice(index, 1);
+        }
+        
+        updateSeatUI(seatId);
+        updateSummary();
+    }
 
-    <script src="../script/java.js"></script>
-    <script src="../script/script.js"></script>
+    // Update seat visual state
+    function updateSeatUI(seatId) {
+        const seatElement = document.getElementById(`seat-${seatId}`);
+        if (!seatElement) return;
+        
+        seatElement.classList.toggle('selected', selectedSeats.includes(seatId));
+    }
 
-    <?php
-    include('../pages/footer.php');
-    ?>
+    // Calculate total price
+    function calculateTotal() {
+        const seatsTotal = selectedSeats.length * config.baseFare;
+        return seatsTotal + config.bookingFee + config.tax;
+    }
 
-    <!-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const seatsContainer = document.getElementById('seatsContainer');
-            const payButton = document.getElementById('payButton');
-            const backButton = document.getElementById('backButton');
-            const totalPriceElement = document.getElementById('totalPrice');
-            const selectedSeatsTextElement = document.getElementById('selectedSeatsText');
+    // Update summary display
+    function updateSummary() {
+        const total = calculateTotal();
+        const hasSeats = selectedSeats.length > 0;
+        
+        elements.totalPrice.textContent = `MWK ${total.toLocaleString()}`;
+        elements.selectedSeatsText.innerHTML = hasSeats
+            ? `<span>Selected Seats (${selectedSeats.length}):</span> 
+               <span>${selectedSeats.join(', ')} - MWK ${(selectedSeats.length * config.baseFare).toLocaleString()}</span>`
+            : '<span>Selected Seats:</span><span>None</span>';
+            
+        elements.payButton.disabled = !hasSeats;
+    }
 
-            // Configuration
-            const rows = 10;
-            const seatsPerRow = 4; // 2 on each side of aisle
-            const baseFare = 35000; // in Malawi Kwacha
-            const bookingFee = 2500;
-            const tax = 3750;
-
-            // Pre-occupied seats
-            const occupiedSeats = ['1A', '2C', '3D', '5B', '7A', '8D', '9C'];
-
-            // Selected seats
-            let selectedSeats = [];
-
-            // Generate seats
-            for (let row = 1; row <= rows; row++) {
-                for (let seat = 1; seat <= seatsPerRow; seat++) {
-                    const seatElement = document.createElement('div');
-
-                    // Determine seat letter (A, B, C, D)
-                    let seatLetter;
-                    if (seat === 1) seatLetter = 'A';
-                    else if (seat === 2) seatLetter = 'B';
-                    else if (seat === 3) seatLetter = 'C';
-                    else if (seat === 4) seatLetter = 'D';
-
-                    const seatId = `${row}${seatLetter}`;
-                    seatElement.id = seatId;
-                    seatElement.className = 'seat';
-                    seatElement.textContent = seatId;
-
-                    // Check if seat is occupied
-                    if (occupiedSeats.includes(seatId)) {
-                        seatElement.classList.add('occupied');
-                    } else {
-                        seatElement.classList.add('available');
-
-                        // Add click event to available seats
-                        seatElement.addEventListener('click', function() {
-                            toggleSeatSelection(seatId);
-                        });
-                    }
-
-                    seatsContainer.appendChild(seatElement);
-
-                    // Add aisle after the second seat in each row
-                    if (seat === 2) {
-                        const aisleElement = document.createElement('div');
-                        aisleElement.className = 'seat aisle';
-                        seatsContainer.appendChild(aisleElement);
-                    }
+    // Render all seats
+    function renderSeats() {
+        elements.seatsContainer.innerHTML = '';
+        
+        for (let row = 1; row <= config.rows; row++) {
+            const rowContainer = document.createElement('div');
+            rowContainer.className = 'seat-row';
+            
+            for (let seat = 1; seat <= config.seatsPerRow; seat++) {
+                const letter = String.fromCharCode(64 + seat);
+                const seatId = `${row}${letter}`;
+                const isOccupied = config.occupiedSeats.includes(seatId);
+                const isSelected = selectedSeats.includes(seatId);
+                
+                const seatElement = document.createElement('div');
+                seatElement.className = `seat ${isOccupied ? 'occupied' : 'available'} ${isSelected ? 'selected' : ''}`;
+                seatElement.textContent = seatId;
+                seatElement.id = `seat-${seatId}`;
+                
+                if (!isOccupied) {
+                    seatElement.addEventListener('click', () => toggleSeat(seatId));
+                }
+                
+                rowContainer.appendChild(seatElement);
+                
+                // Add aisle after seat B
+                if (seat === 2) {
+                    rowContainer.appendChild(document.createElement('div')).className = 'aisle';
                 }
             }
+            
+            elements.seatsContainer.appendChild(rowContainer);
+        }
+    }
 
-            // Toggle seat selection
-            function toggleSeatSelection(seatId) {
-                const seatElement = document.getElementById(seatId);
-
-                if (seatElement.classList.contains('selected')) {
-                    // Deselect
-                    seatElement.classList.remove('selected');
-                    seatElement.classList.add('available');
-                    selectedSeats = selectedSeats.filter(id => id !== seatId);
-                } else {
-                    // Select
-                    seatElement.classList.remove('available');
-                    seatElement.classList.add('selected');
-                    selectedSeats.push(seatId);
-                }
-
-                updateBookingSummary();
-            }
-
-            // Format currency for Malawi Kwacha
-            function formatCurrency(amount) {
-                return 'MWK ' + amount.toLocaleString('en-US');
-            }
-
-            // Update booking summary
-            function updateBookingSummary() {
-                const seatPrice = baseFare;
-                const seatsTotal = selectedSeats.length * seatPrice;
-                const total = seatsTotal + bookingFee + tax;
-
-                totalPriceElement.textContent = formatCurrency(total);
-
-                if (selectedSeats.length > 0) {
-                    selectedSeatsTextElement.innerHTML = `
-                    <span>Selected Seats (${selectedSeats.length}):</span>
-                    <span>${selectedSeats.join(', ')} - ${formatCurrency(seatsTotal)}</span>
-                `;
-                    payButton.disabled = false;
-                } else {
-                    selectedSeatsTextElement.innerHTML = `
-                    <span>Selected Seats:</span>
-                    <span>None</span>
-                `;
-                    payButton.disabled = true;
-                }
-            }
-
-            // Pay button click event
-            payButton.addEventListener('click', function() {
-                if (selectedSeats.length > 0) {
-                    // Store selected seats in session/local storage if needed
-                    localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
-                    localStorage.setItem('totalAmount', totalPriceElement.textContent);
-
-                    // Redirect to payment page
-                    window.location.href = 'payment.php';
-                }
-            });
-
-            // Back button click event
-            backButton.addEventListener('click', function() {
-                window.location.href = 'booking.php';
-            });
-        });
-        fetch('process-seat.php', {
+    // Handle payment
+    async function handlePayment() {
+        if (!selectedSeats.length) {
+            alert('Please select at least one seat');
+            return;
+        }
+        
+        elements.payButton.disabled = true;
+        elements.payButton.textContent = 'Processing...';
+        
+        try {
+            const bookingData = {
+                booking_id: bookingId,
+                seats: selectedSeats,
+                total_amount: calculateTotal(),
+                base_fare: config.baseFare,
+                booking_fee: config.bookingFee,
+                tax: config.tax
+            };
+            
+            const response = await fetch('process_seat.php', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    booking_id: 123456, // Replace with actual booking ID
-                    selected_seats: ["1A", "2B", "3C"] // Replace with actual seat selection
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.href = `payment.php?booking_id=${data.booking_id}`;
-                } else {
-                    console.error("Error:", data.message, "SQL Error:", data.error);
-                    alert("Booking Failed: " + data.message);
-                }
-            })
-            .catch(error => console.error('Fetch Error:', error));
-    </script> -->
-</body>
-
-</html>
-// <script>
-    // //     document.addEventListener('DOMContentLoaded', function() {
-    //         const seatsContainer = document.getElementById('seatsContainer');
-    //         const payButton = document.getElementById('payButton');
-    //         const backButton = document.getElementById('backButton');
-    //         const totalPriceElement = document.getElementById('totalPrice');
-    //         const selectedSeatsTextElement = document.getElementById('selectedSeatsText');
-
-    //         // Configuration
-    //         const rows = 10;
-    //         const seatsPerRow = 4; // 2 on each side of aisle
-    //         const baseFare = 35000; // in Malawi Kwacha
-    //         const bookingFee = 2500;
-    //         const tax = 3750;
-
-    //         // Pre-occupied seats
-    //         const occupiedSeats = ['1A', '2C', '3D', '5B', '7A', '8D', '9C'];
-
-    //         // Selected seats
-    //         let selectedSeats = [];
-
-    //         // Generate seats
-    //         for (let row = 1; row <= rows; row++) {
-    //             for (let seat = 1; seat <= seatsPerRow; seat++) {
-    //                 const seatElement = document.createElement('div');
-
-    //                 // Determine seat letter (A, B, C, D)
-    //                 let seatLetter;
-    //                 if (seat === 1) seatLetter = 'A';
-    //                 else if (seat === 2) seatLetter = 'B';
-    //                 else if (seat === 3) seatLetter = 'C';
-    //                 else if (seat === 4) seatLetter = 'D';
-
-    //                 const seatId = `${row}${seatLetter}`;
-    //                 seatElement.id = seatId;
-    //                 seatElement.className = 'seat';
-    //                 seatElement.textContent = seatId;
-
-    //                 // Check if seat is occupied
-    //                 if (occupiedSeats.includes(seatId)) {
-    //                     seatElement.classList.add('occupied');
-    //                 } else {
-    //                     seatElement.classList.add('available');
-
-    //                     // Add click event to available seats
-    //                     seatElement.addEventListener('click', function() {
-    //                         toggleSeatSelection(seatId);
-    //                     });
-    //                 }
-
-    //                 seatsContainer.appendChild(seatElement);
-
-    //                 // Add aisle after the second seat in each row
-    //                 if (seat === 2) {
-    //                     const aisleElement = document.createElement('div');
-    //                     aisleElement.className = 'seat aisle';
-    //                     seatsContainer.appendChild(aisleElement);
-    //                 }
-    //             }
-    //         }
-
-    //         // Toggle seat selection
-    //         function toggleSeatSelection(seatId) {
-    //             const seatElement = document.getElementById(seatId);
-
-    //             if (seatElement.classList.contains('selected')) {
-    //                 // Deselect
-    //                 seatElement.classList.remove('selected');
-    //                 seatElement.classList.add('available');
-    //                 selectedSeats = selectedSeats.filter(id => id !== seatId);
-    //             } else {
-    //                 // Select
-    //                 seatElement.classList.remove('available');
-    //                 seatElement.classList.add('selected');
-    //                 selectedSeats.push(seatId);
-    //             }
-
-    //             updateBookingSummary();
-    //         }
-
-    //         // Format currency for Malawi Kwacha
-    //         function formatCurrency(amount) {
-    //             return 'MWK ' + amount.toLocaleString('en-US');
-    //         }
-
-    //         // Update booking summary
-    //         function updateBookingSummary() {
-    //             const seatPrice = baseFare;
-    //             const seatsTotal = selectedSeats.length * seatPrice;
-    //             const total = seatsTotal + bookingFee + tax;
-
-    //             totalPriceElement.textContent = formatCurrency(total);
-
-    //             if (selectedSeats.length > 0) {
-    //                 selectedSeatsTextElement.innerHTML = `
-    //                     <span>Selected Seats (${selectedSeats.length}):</span>
-    //                     <span>${selectedSeats.join(', ')} - ${formatCurrency(seatsTotal)}</span>
-    //                 `;
-    //                 payButton.disabled = false;
-    //             } else {
-    //                 selectedSeatsTextElement.innerHTML = `
-    //                     <span>Selected Seats:</span>
-    //                     <span>None</span>
-    //                 `;
-    //                 payButton.disabled = true;
-    //             }
-    //         }
-
-    //         // Pay button click event
-    //         payButton.addEventListener('click', function() {
-    //             if (selectedSeats.length > 0) {
-    //                 // Send selected seats to the server (process-seat.php)
-    //                 fetch('process-seat.php', {
-    //                     method: 'POST',
-    //                     headers: { 'Content-Type': 'application/json' },
-    //                     body: JSON.stringify({
-    //                         booking_id: 123456, // Replace with actual booking ID
-    //                         selected_seats: selectedSeats // Ensure this is the correct variable with selected seats
-    //                     })
-    //                 })
-    //                 .then(response => response.json())
-    //                 .then(data => {
-    //                     if (data.success) {
-    //                         window.location.href = `payment.php?booking_id=${data.booking_id}`;
-    //                     } else {
-    //                         console.error("Error:", data.message);
-    //                         alert("Booking Failed: " + data.message);
-    //                     }
-    //                 })
-    //                 .catch(error => console.error('Fetch Error:', error));
-    //             }
-    //         });
-
-    //         // Back button click event
-    //         backButton.addEventListener('click', function() {
-    //             window.location.href = 'booking.php';
-    //         });
-    //     });
-    // 
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(bookingData)
+            });
+            
+            if (!response.ok) throw new Error(`Error: ${response.status}`);
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
+                window.location.href = result.redirect_url || `payment.php?booking_id=${bookingId}`;
+            } else {
+                throw new Error(result.message || 'Booking failed');
+            }
+        } catch (error) {
+            console.error('Payment error:', error);
+            alert(error.message);
+        } finally {
+            elements.payButton.disabled = false;
+            elements.payButton.textContent = 'Proceed to Payment';
+        }
+    }
 </script>
+</body>
+</html>
