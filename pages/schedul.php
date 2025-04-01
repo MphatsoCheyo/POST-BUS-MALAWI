@@ -23,53 +23,7 @@ include('../pages/header.php');
                 <a href="luggage.php"><button class="quick-link">Luggage</button></a>
                 <a href="refunds.php"><button class="quick-link">Refunds</button></a>
             </div>
-            <div class="cta-section">
-                <h3>Still have questions?</h3>
-                <p>Our customer service team is ready to assist you with any other inquiries.</p>
-                <a href="contact.php" class="cta-btn">Contact Us</a>
-            </div>
-            <div class="contact-info">
-                <h3>Contact Information</h3>
-                <div class="contact-item">
-                    <div class="contact-icon">📞</div>
-                    <div class="contact-details">
-                        <h4>Phone</h4>
-                        <p>+265 1 234 5678</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">✉️</div>
-                    <div class="contact-details">
-                        <h4>Email</h4>
-                        <p>info@postbusmalawi.com</p>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">⏰</div>
-                    <div class="contact-details">
-                        <h4>Support Hours</h4>
-                        <p>Monday-Saturday: 7:00 AM - 8:00 PM</p>
-                        <p>Sunday: 8:00 AM - 5:00 PM</p>
-                    </div>
-                </div>
-            </div>
-
-                        <div class="route-map">
-                <h3>Our Routes</h3>
-                <div class="map-container">
-                    <div id="map"></div>
-                </div>
-                <div class="popular-routes">
-                    <span class="route-badge">Lilongwe - Blantyre</span>
-                    <span class="route-badge">Mzuzu - Lilongwe</span>
-                    <span class="route-badge">Blantyre - Zomba</span>
-                    <span class="route-badge">Lilongwe - Mangochi</span>
-                    <span class="route-badge">Mzuzu - Blantyre</span>
-                </div>
-            </div>
-        </div>
-        </div>
-        <div class="faq-section">
+            <div class="faq-section">
                 <h2 class="section-title">Schedules and Routes</h2>
                 <div class="faq-container" data-category="schedules">
                     <div class="faq-item">
@@ -130,6 +84,52 @@ include('../pages/header.php');
                     </div>
                 </div>
             </div>
+            <div class="cta-section">
+                <h3>Still have questions?</h3>
+                <p>Our customer service team is ready to assist you with any other inquiries.</p>
+                <a href="contact.php" class="cta-btn">Contact Us</a>
+            </div>
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <div class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div class="contact-details">
+                        <h4>Phone</h4>
+                        <p>+265 1 234 5678</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">✉️</div>
+                    <div class="contact-details">
+                        <h4>Email</h4>
+                        <p>info@postbusmalawi.com</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">⏰</div>
+                    <div class="contact-details">
+                        <h4>Support Hours</h4>
+                        <p>Monday-Saturday: 7:00 AM - 8:00 PM</p>
+                        <p>Sunday: 8:00 AM - 5:00 PM</p>
+                    </div>
+                </div>
+            </div>
+
+                        <div class="route-map">
+                <h3>Our Routes</h3>
+                <div class="map-container">
+                    <div id="map"></div>
+                </div>
+                <div class="popular-routes">
+                    <span class="route-badge">Lilongwe - Blantyre</span>
+                    <span class="route-badge">Mzuzu - Lilongwe</span>
+                    <span class="route-badge">Blantyre - Zomba</span>
+                    <span class="route-badge">Lilongwe - Mangochi</span>
+                    <span class="route-badge">Mzuzu - Blantyre</span>
+                </div>
+            </div>
+        </div>
+        </div>
             <?php
     include('../pages/footer.php');  // Include footer.php
     ?>

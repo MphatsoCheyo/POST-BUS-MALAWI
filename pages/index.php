@@ -13,20 +13,6 @@ include('../pages/header.php');
         <div class="swim-slider">
     <div class="swim-slides" id="swimSlides">
         <div class="swim-slide">
-            <img src="../images/1.jpeg" alt="Reliable Nationwide Travel">
-            <div class="swim-slide-overlay">
-                <div class="swim-slide-title">Reliable Nationwide Travel</div>
-                <div class="swim-slide-description">Experience safe, affordable, and convenient travel across Malawi with Post Bus Malawi.</div>
-            </div>
-        </div>
-        <div class="swim-slide">
-            <img src="../images/2.jpeg" alt="Comfortable & Modern Buses">
-            <div class="swim-slide-overlay">
-                <div class="swim-slide-title">Comfortable & Modern Buses</div>
-                <div class="swim-slide-description">Travel in style with spacious seating, air conditioning, and on-board Wi-Fi.</div>
-            </div>
-        </div>
-        <div class="swim-slide">
             <img src="../images/5.jpeg" alt="Timely & Efficient Service">
             <div class="swim-slide-overlay">
                 <div class="swim-slide-title">Timely & Efficient Service</div>
@@ -38,6 +24,20 @@ include('../pages/header.php');
             <div class="swim-slide-overlay">
                 <div class="swim-slide-title">Secure & Hassle-Free Booking</div>
                 <div class="swim-slide-description">Book your tickets online with ease and enjoy a seamless travel experience.</div>
+            </div>
+        </div>
+        <div class="swim-slide">
+            <img src="../images/1.jpeg" alt="Reliable Nationwide Travel">
+            <div class="swim-slide-overlay">
+                <div class="swim-slide-title">Reliable Nationwide Travel</div>
+                <div class="swim-slide-description">Experience safe, affordable, and convenient travel across Malawi with Post Bus Malawi.</div>
+            </div>
+        </div>
+        <div class="swim-slide">
+            <img src="../images/2.jpeg" alt="Comfortable & Modern Buses">
+            <div class="swim-slide-overlay">
+                <div class="swim-slide-title">Comfortable & Modern Buses</div>
+                <div class="swim-slide-description">Travel in style with spacious seating, air conditioning, and on-board Wi-Fi.</div>
             </div>
         </div>
     </div>
@@ -130,6 +130,10 @@ include('../pages/header.php');
         </div>
         
         <div class="quick-access">
+        <div class="quick-btn">
+                <i class="fas fa-clock"></i>
+                <span><a href="schedule.php">Check Schedules</a></span>
+            </div>
             <div class="quick-btn">
                 <i class="fas fa-ticket-alt"></i>
                 <span><a href="booking.php">Book a Ticket</a></span>
@@ -137,10 +141,6 @@ include('../pages/header.php');
             <div class="quick-btn">
                 <i class="fas fa-chair"></i>
                 <span><a href="seat.php">Select a Seat</a></span>
-            </div>
-            <div class="quick-btn">
-                <i class="fas fa-clock"></i>
-                <span><a href="schedule.php">Check Schedules</a></span>
             </div>
             <div class="quick-btn">
                 <i class="fas fa-credit-card"></i>
@@ -152,7 +152,7 @@ include('../pages/header.php');
             </div>
             <div class="quick-btn">
                 <i class="fas fa-bus"></i>
-                <span><a href="tracking.php">Track a Bus</a></span>
+                <span><a href="truck.php">Track a Bus</a></span>
             </div>
             
         </div>

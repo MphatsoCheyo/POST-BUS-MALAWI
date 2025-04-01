@@ -165,12 +165,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Hide search results when clicking outside
+    /*
     document.addEventListener('click', (event) => {
         if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
             searchResults.style.display = 'none';
         }
-    });
+    });*/
 });
 
 // Wait until the DOM is fully loaded
@@ -265,7 +265,7 @@ function showPage() {
     })
     .catch(error => {
         console.error("Error:", error);
-        alert("An error occurred while processing your booking. Please try again.");
+
     });
 }
 

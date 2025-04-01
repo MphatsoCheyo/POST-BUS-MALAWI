@@ -6,223 +6,31 @@ include('../pages/header.php');
 
 ?>
 <style>
-    body {
-        font-family: 'Roboto', sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f5f5f5;
-    }
+  
 
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-
-    .seat-selection-title {
-        text-align: center;
-        color: #2C5282;
-        margin-bottom: 30px;
-        font-size: 2em;
-    }
-
-    .bus-layout {
-        background-color: white;
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
-
-    .bus-front {
-        text-align: center;
-        font-weight: bold;
-        margin-bottom: 20px;
-    }
-
-    .driver-area {
-        text-align: center;
-        margin-bottom: 30px;
-    }
-
-    .driver-seat {
-        display: inline-block;
-        font-size: 24px;
-        font-weight: bold;
-    }
-
-    .seats-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .seat-row {
-        display: flex;
-        margin-bottom: 15px;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .seat {
-        width: 50px;
-        height: 50px;
-        margin: 8px;
-        text-align: center;
-        line-height: 50px;
-        border: 2px solid #ccc;
-        border-radius: 8px;
-        font-weight: bold;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.3s ease;
-    }
-
-    .seat:hover {
-        transform: scale(1.1);
-    }
-
-    .available {
-        background-color: #e0e0e0;
-    }
-
-    .available:hover {
-        background-color: #d0d0d0;
-    }
-
-    .selected {
-        background-color: #2C5282;
-        color: white;
-    }
-
-    .occupied {
-        background-color: #f44336;
-        color: white;
-        cursor: not-allowed;
-    }
-
-    .aisle {
-        width: 20px;
-        height: 50px;
-        background-color: transparent;
-    }
-
-    .legend {
-        display: flex;
-        justify-content: center;
-        margin-top: 30px;
-        gap: 20px;
-    }
-
-    .legend-item {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-    .legend-color {
-        width: 20px;
-        height: 20px;
-        border-radius: 3px;
-    }
-
-    .available-color {
-        background-color: #e0e0e0;
-    }
-
-    .selected-color {
-        background-color: #2C5282;
-    }
-
-    .occupied-color {
-        background-color: #f44336;
-    }
-
-    .booking-summary {
-        background-color: white;
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
-
-    .booking-summary h3 {
-        margin-top: 0;
-        color: #2C5282;
-    }
-
-    .malawi-logo {
-        text-align: center;
-        margin: 20px 0;
-    }
-
-    .seatlog {
-        max-width: 100px;
-    }
-
-    .price-details {
-        border-top: 1px solid #eee;
-        padding-top: 15px;
-    }
-
-    .price-row {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-    }
-
-    .total-price {
-        font-weight: bold;
-        font-size: 1.2em;
-        margin-top: 15px;
-        padding-top: 10px;
-        border-top: 1px solid #eee;
-    }
-
-    .button-container {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-    }
-
-    .back-button,
-    .pay-button {
-        padding: 12px 24px;
-        border: none;
-        border-radius: 4px;
-        font-weight: bold;
-        cursor: pointer;
-        font-size: 16px;
-    }
-
-    .back-button {
-        background-color: #e0e0e0;
-        color: #333;
-    }
-
-    .back-button:hover {
-        background-color: #d0d0d0;
-    }
-
-    .pay-button {
-        background-color: #2C5282;
-        color: white;
-    }
-
-    .pay-button:disabled {
-        background-color: #cccccc;
-        cursor: not-allowed;
-    }
-
-    .pay-button:not(:disabled):hover {
-        background-color: #1a365d;
-    }
 </style>
 </head>
 
 <body>
-    <div class="container">
-        <h2 class="seat-selection-title">Select Your Seat - Post Bus Malawi</h2>
+    <div class="containeryy">
+    <h2 class="seat-selection-title">Select Your Seat - Post Bus Malawi</h2>
+    <div class="seat-instructions">
+        <h3>⚠️ Important Seat Selection Instructions</h3>
+        <ul>
+            <li>
+                <span class="warning">Multiple Seat Selection:</span> 
+                Select all desired seats at once before proceeding. If you select a seat and complete payment, then go back to select another seat, the system will not allow you to do so.
+            </li>
+            <li>
+                <span class="warning">Choose Carefully:</span> 
+                Make your seat selection thoughtfully. If you make a mistake and want to change seats, the system will not permit modifications.
+            </li>
+            <li>
+                <span class="warning">Note:</span> 
+                If you need to change your selection, you must log out and start the booking process again.
+            </li>
+        </ul>
+    </div>
 
         <div class="bus-layout">
             <div class="bus-front">Driver</div>
@@ -282,7 +90,8 @@ include('../pages/header.php');
             <button type="button" class="pay-button" id="payButton" disabled>Proceed to Payment</button>
         </div>
     </div>
-    <?php include('../pages/footer.php'); ?>
+    <?php include('../pages/footer.php'); 
+    ?>
 
     <script>
     // Configuration
@@ -321,7 +130,7 @@ include('../pages/header.php');
         
         elements.payButton.addEventListener('click', handlePayment);
         elements.backButton.addEventListener('click', () => {
-            window.location.href = 'selection.php';
+            window.location.href = 'booking.php';
         });
     });
 

@@ -180,9 +180,9 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(response => response.json()) // Expecting a JSON response
         .then(data => {
             if (data.success) {
-                window.location.href = "seat.php"; // Redirect to seat selection
+                window.location.href = "sit.php"; // Redirect to seat selection
             } else {
-                alert("Error: " + data.message);
+                console.log(data.message);
             }
         })
         .catch(error => {

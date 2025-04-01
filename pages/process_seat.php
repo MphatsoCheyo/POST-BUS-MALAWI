@@ -4,7 +4,7 @@ header('Content-Type: application/json');
 
 // Database configuration
 $host = 'localhost';
-$dbname = 'postbus';
+$dbname = 'bus';
 $username = 'root';
 $password = 'secure';
 
@@ -37,7 +37,7 @@ try {
 
     // 1. Create booking summary
     $stmt = $pdo->prepare("
-        INSERT INTO bookingsummary 
+        INSERT INTO bookingsumma
         (booking_id, total_amount, status, created_at, updated_at)
         VALUES (?, ?, 'pending', ?, ?)
     ");
@@ -45,7 +45,7 @@ try {
 
     // 2. Reserve each seat
     $seatStmt = $pdo->prepare("
-        UPDATE seats 
+        UPDATE seat 
         SET status = 'reserved', 
             booking_id = ?,
             booked_at = ?
